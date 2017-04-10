@@ -226,7 +226,8 @@ class Setup:
         return tracker
 
     def stmuli(self):
-        color = (255,0,0)
+        color = (255,255,0)
+        Blue = (0,255,0)
         self.disp.fill(color)
         text = "This is a stmuli"
         x = self.dispsize[0]/2; y = self.dispsize[0]/2
@@ -239,7 +240,9 @@ class Setup:
             # position
             pos = (x-linesize[0]/2, y + (lnr - nlines/2)*linesize[1])
             # draw to disp
-            self.disp.blit(rendered, pos)
+            self.disp.blit(rendered, (x-80,y+100))
+        pygame.draw.line(self.disp,Blue,(x+20,y),(x-20,y),6) # surface, color, center, end point,thickness
+        pygame.draw.line(self.disp,Blue,(x,y-20),(x,y+20),6)
         pygame.display.flip()
 
 
