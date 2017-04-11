@@ -15,6 +15,7 @@ BUFFSEP = 'edwinisdebeste'
 # imports
 
 import os.path
+import math, sys
 
 # Try to import VideoCapture Library
 # Requires VideoCapture & PIL libraries
@@ -30,6 +31,7 @@ except ImportError:
 try:
     import pygame
     import pygame.camera
+    from pygame.locals import *
     pygame.init()
     pygame.camera.init()
 except:
@@ -228,6 +230,8 @@ class Setup:
     def stmuli(self):
         color = (255,255,0)
         Blue = (0,255,0)
+        centerx = 512
+        centery = 384
         self.disp.fill(color)
         text = "This is a stmuli"
         x = self.dispsize[0]/2; y = self.dispsize[0]/2
@@ -241,9 +245,49 @@ class Setup:
             pos = (x-linesize[0]/2, y + (lnr - nlines/2)*linesize[1])
             # draw to disp
             self.disp.blit(rendered, (x-80,y+100))
-        pygame.draw.line(self.disp,Blue,(x+20,y),(x-20,y),6) # surface, color, center, end point,thickness
-        pygame.draw.line(self.disp,Blue,(x,y-20),(x,y+20),6)
+        pygame.draw.line(self.disp,Blue,(centerx+20,centery),(centerx-20,centery),6) # surface, color, center, end point,thickness
+        pygame.draw.line(self.disp,Blue,(centerx,centery-20),(centerx,centery+20),6)
+        clock = pygame.time.Clock()
+        clock.tick(1000)
         pygame.display.flip()
+
+    def show_problem(self):
+        center = (512,384)
+        black = (0,0,0)
+        self.disp.fill(black) #Fill the screen with BLACK
+        resdir = os.path.join(os.path.split(os.path.abspath(__file__))[0],'resources')
+        resdir = resdir + "\car.png"
+        car = pygame.image.load(resdir)
+        clock = pygame.time.Clock()
+        FRAMES_PER_SECOND = 30
+        problemtext = 'A car will be shown to you at the end of this message'
+        x = self.dispsize[0]/2; y = self.dispsize[0]/2
+        lines = problemtext.split("\n")
+        nlines = len(lines)
+        for lnr in range(nlines):
+            # render text
+            linesize = self.font.size(lines[lnr])
+            rendered = self.font.render(lines[lnr], True, (0,255,255)) # Font.render(text, antialias, color, background=None)
+            # position
+            pos = (x-linesize[0]/2, y + (lnr - nlines/2)*linesize[1])
+            # draw to disp
+            self.disp.blit(rendered, (300,384))# Show text at the center of the screen
+        pygame.display.flip()
+        pygame.time.delay(5000)
+
+        for i in range(0,1000):
+            clock.tick(FRAMES_PER_SECOND)
+            self.disp.fill(black)
+            self.disp.blit(car,(i,384))
+            pygame.display.update()
+        # pygame.time.delay(1000)
+        # myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        # textsurface = myfont.render('Thank you for participating!', False, (255, 255, 0))
+        # self.disp.fill(black)
+        # self.disp.blit(textsurface,(center))
+        # pygame.time.delay(1000)
+        # pygame.display.flip()
+        # pygame.quit()
 
 
 
@@ -271,6 +315,7 @@ class Setup:
 
         author: Edwin Dalmaijer
         version: 0.1 (12-10-2013)
+        editted: Hao-Yu Yang
 
 
 
@@ -609,9 +654,9 @@ class Setup:
                 except: print("pupilbounds=%s" % pupilbounds)
                 try: pygame.draw.circle(self.img, (255,0,0),pupilpos,3,0); pygame.draw.circle(self.thresholded, (255,0,0),pupilpos,3,0)
                 except: print("pupilpos=%s" % pupilpos)
-                # is settings are confirmed, stop running
+                # if settings are confirmed, stop running
                 if stagevars[3]['confirmed']:
-                    running = False
+                      running = False
 
             # draw values
             starty = self.dispsize[1]/2 - imgsize[1]/2
@@ -1042,6 +1087,9 @@ class CamEyeTracker:
         ppos, parea, pbounds = self.find_pupil(thimg, pupilrect)
 
         return img, thimg, ppos, parea, pbounds
+
+    # def printproblem(self):
+
 
 
 
