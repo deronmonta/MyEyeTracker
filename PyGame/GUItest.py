@@ -6,6 +6,6 @@ from camtracker import Setup
 setup = Setup()
 
 # run GUI
-
+ 
 tracker = setup.start()
 setup.show_problem()

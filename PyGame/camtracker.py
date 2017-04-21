@@ -230,17 +230,18 @@ class Setup:
     def stmuli(self):
         color = (255,255,0)
         Blue = (0,255,0)
+        black=(0,0,0)
         centerx = 512
         centery = 384
-        self.disp.fill(color)
-        text = "This is a stmuli"
+        self.disp.fill(black)
+        text = "This is a gaze point"
         x = self.dispsize[0]/2; y = self.dispsize[0]/2
         lines = text.split("\n")
         nlines = len(lines)
         for lnr in range(nlines):
             # render text
             linesize = self.font.size(lines[lnr])
-            rendered = self.font.render(lines[lnr], True, (0,0,255)) # Font.render(text, antialias, color, background=None)
+            rendered = self.font.render(lines[lnr], True, (255,255,255)) # Font.render(text, antialias, color, background=None)
             # position
             pos = (x-linesize[0]/2, y + (lnr - nlines/2)*linesize[1])
             # draw to disp
